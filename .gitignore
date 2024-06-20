@@ -1,1 +1,6 @@
 env/
+models/__pycache__/
+data/
+
+test.py
+notes.txt
