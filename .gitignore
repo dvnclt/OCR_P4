@@ -1,6 +1,11 @@
 env/
 models/__pycache__/
+views/__pycache__/
+controllers/__pycache__/
 data/
 
-test.py
+test_models.py
+test_views.py
+test_controllers.py
 notes.txt
+.DS_Store
