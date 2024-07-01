@@ -19,7 +19,7 @@ class View:
     @staticmethod
     def display_tournament_actions_menu():
         print("\nMenu des actions de tournois\n")
-        print("\n1 : Ajouter un joueur")
+        print("1 : Ajouter un joueur")
         print("2 : Démarrer le tournoi")
         print("3 : Générer les matchs")
         print("4 : Saisir les résultats")
@@ -44,13 +44,3 @@ class View:
     @staticmethod
     def display_message(message):
         print(message)
-
-    @staticmethod
-    def display_players(players):
-        for player in players:
-            print(f"{player.first_name} {player.last_name} ({player.national_id}) - Points: {player.points}")
-
-    @staticmethod
-    def display_tournaments(tournaments):
-        for tournament in tournaments:
-            print(f"{tournament.name} at {tournament.location} from {tournament.start_date} to {tournament.end_date}")

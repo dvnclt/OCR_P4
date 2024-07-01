@@ -29,6 +29,9 @@ while True:
                 tournament.add_round(round)
                 view.display_message(f"{round_name} créé.\n")
 
+            active_round = tournament.rounds[0]
+            view.display_message(f"Round actuel : {active_round.name}\n")
+
             while True:
                 view.display_tournament_actions_menu()
                 choice = view.get_user_input("Sélectionnez une option : ")
@@ -45,12 +48,19 @@ while True:
                     tournament.add_player(player)
                     view.display_message(f"\nJoueur '{player.first_name} {player.last_name}' ajouté avec succès.\n")
 
-                if choice == "2":
+                elif choice == "2":
                     tournament.start_tournament()
                     view.display_message(f"Le tournoi {tournament.name} a commencé : {tournament.start_date}.")
 
-                if choice == "0":
+                elif choice == "3":
+                    tournament_controller.generate_matches(tournament, active_round)
+                    view.display_message(f"liste des match pour le {active_round.name} : \n{active_round.matches}\n"
+                                         f"Nombre de matchs : {len(active_round.matches)}")
+                    
+
+                elif choice == "0":
+                    # Option de test
                     tournament_controller.simulate_auto_add_players(tournament, 20)
-                    tournament_controller.generate_matches(tournament, round)
-                    view.display_message(f"liste des match pour le {round.name} : \n{round.matches}\n"
-                                         f"Nombre de matchs : {len(round.matches)}")
+                    tournament_controller.generate_matches(tournament, active_round)
+                    view.display_message(f"liste des match pour le {active_round.name} : \n{active_round.matches}\n"
+                                         f"Nombre de matchs : {len(active_round.matches)}")

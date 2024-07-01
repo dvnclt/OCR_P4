@@ -13,7 +13,7 @@ class TournamentController:
         return tournament
 
     def generate_matches(self, tournament: Tournament, round: Round):
-        if len(tournament.players) < 2:
+        if len(tournament.players) < 2:  # Ne fonctionne pas
             return "Erreur: Pas assez de joueurs pour créer un match"
 
         random.shuffle(tournament.players)
@@ -25,6 +25,7 @@ class TournamentController:
             round.matches.append(match)
 
     def simulate_auto_add_players(self, tournament: Tournament, num_players: int):
+        # Méthode de test
         player_controller = PlayerController()
         for i in range(num_players):
             first_name = f"Joueur{i+1}"

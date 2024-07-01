@@ -10,18 +10,9 @@ class Match:
         self.player2_score: float = 0
         self.match: Tuple[List, List] = ([self.player1, self.player1_score], [self.player2, self.player2_score])
 
-    def result(self, player1_score: float, player2_score: float):
+    def results(self, player1_score, player2_score):
         self.player1_score = player1_score
         self.player2_score = player2_score
-
-        if self.player1_score == 1 and self.player2_score == 0:
-            return f"Vainqueur {self.player1.first_name} {self.player1.last_name}\n"
-        elif self.player1_score == 0 and self.player2_score == 1:
-            return f"Vainqueur {self.player2.first_name} {self.player2.last_name}\n"
-        elif self.player1_score == 0.5 and self.player2_score == 0.5:
-            return "Match Nul"
-        else:
-            return "Erreur dans la saisie des scores"
 
     def __repr__(self):
         return (f"{self.player1.first_name} {self.player1.last_name} : {self.player1_score}\n"
