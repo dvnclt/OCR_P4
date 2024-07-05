@@ -1,4 +1,5 @@
 from .player import Player
+from .participant import Participant
 from .tournament import Tournament
 import os
 import json

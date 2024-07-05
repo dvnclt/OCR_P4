@@ -1,4 +1,4 @@
-from .player import Player
+from .participant import Participant
 from .round import Round
 from .match import Match
 
@@ -14,12 +14,12 @@ class Tournament:
         self.end_date: datetime = None
         self.total_rounds: int = total_rounds
         self.rounds: List = []
-        self.players: List = []
+        self.participants: List = []
         self.description: str = None
 
-    def add_player(self, player: Player):
-        self.players.append(player)
-        self.players.sort(key=lambda player: player.last_name)
+    def add_participant(self, participant: Participant):
+        self.participants.append(participant)
+        self.participants.sort(key=lambda participant: participant.last_name)
 
     def add_round(self, round: Round):
         self.rounds.append(round)
@@ -44,7 +44,7 @@ class Tournament:
         return (f"Tournament(name='{self.name}', location='{self.location}', "
                 f"start_date='{start_date_str}', end_date='{end_date_str}', "
                 f"total_rounds={self.total_rounds}, current_round={self.current_round_name()}, "
-                f"players={len(self.players)}, rounds={len(self.rounds)}, "
+                f"participants={len(self.participants)}, rounds={len(self.rounds)}, "
                 f"description='{self.description}')")
 
     def to_dict(self):
@@ -55,7 +55,7 @@ class Tournament:
             'end_date': self.end_date,
             'total_rounds': self.total_rounds,
             'rounds': [round.to_dict() for round in self.rounds],
-            'players': [player.to_dict() for player in self.players],
+            'participants': [participant.to_dict() for participant in self.participants],
             'description': self.description
         }
 
@@ -69,6 +69,6 @@ class Tournament:
         tournament.start_date = data.get('start_date')
         tournament.end_date = data.get('end_date')
         tournament.rounds = [Round.from_dict(round) for round in data.get('rounds', [])]
-        tournament.players = [Player.from_dict(player) for player in data.get('players', [])]
+        tournament.participants = [Participant.from_dict(participant) for participant in data.get('participants', [])]
         tournament.description = data.get('description')
         return tournament
