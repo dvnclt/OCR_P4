@@ -2,11 +2,11 @@
 
 class View:
     @staticmethod
-    def get_user_input(prompt):
+    def get_user_input(prompt):  # Del
         return input(prompt)
 
     @staticmethod
-    def display_message(message):
+    def display_message(message):  # Del
         print(message)
 
     @staticmethod
@@ -27,12 +27,12 @@ class View:
     @staticmethod
     def display_tournament_actions_menu():
         print("\nMenu des actions du tournoi\n")
-        print("1 : Ajouter un joueur")
+        print("1 : Ajouter un participant")
         print("2 : Générer les matchs")
         print("3 : Saisir les résultats")
-        print("4 : Afficher le round en cours")
+        print("4 : Afficher le round en cours et le classement actuel")
         print("5 : Terminer le round en cours et commencer le suivant")
-        print("6 : Ajouter un round et le démarrer")
+        print("6 : Ajouter un round")
         print("7 : Terminer le tournoi")
         print("8 : Afficher la liste des participants")
         print("9 : Afficher la liste des rounds")

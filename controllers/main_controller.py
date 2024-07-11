@@ -1,10 +1,36 @@
-from views import View
-from controllers.tournament_controller import TournamentController
-from controllers.player_controller import PlayerController
-from controllers.participant_controller import ParticipantController
-from controllers.round_controller import RoundController
+from views.view import View
+from player_controller import PlayerController
+from participant_controller import ParticipantController
+from match_controller import MatchController
+from round_controller import RoundController
+from tournament_controller import TournamentController
 
-view = View()
+
+class MainController:
+    def __init__(self):
+        self.view = View()
+        self.player_controller = PlayerController()
+        self.participant_controller = ParticipantController()
+        self.match_controller = MatchController()
+        self.round_controller = RoundController()
+        self.tournament_controller = TournamentController()
+
+    @staticmethod
+    def get_user_input(prompt):
+        return input(prompt)
+
+    @staticmethod
+    def display_message(message):
+        print(message)
+
+    def main_menu(self):
+        while True:
+            self.view.display_main_menu()
+            choice = self.get_user_input("\nSélectionnez une option : ")
+            if choice == "1":
+                self.view.display_tournament_menu()
+                choice = self.view.get_user_input("Sélectionnez une option : ")
+            # A terminer
 
 while True:
     # Affiche le menu principal et demande une action à l'utilisateur

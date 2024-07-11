@@ -15,55 +15,54 @@ class TournamentController:
         return tournament
 
     def generate_matches(self, tournament: Tournament, round: Round):
+        # Initialise la liste des matchs pour le round en cours
+        matches = []
+        # Créer une copie de la liste des participants dans une variable 'participants'
+        participants = tournament.participants[:]
+
+        # Si nombre de participants insuffisant -> Erreur
         if len(tournament.participants) < 2:
             return f"Erreur: Pas assez de participants ({len(tournament.participants)}). 2 min. requis."
 
+        # Si Round 1, les matchs sont générés aléatoirement
         if round.name == "Round 1":
             random.shuffle(tournament.participants)
         else:
+            # Pour les rounds suivants, les participants sont classés par ordre décroissant de points
             tournament.participants.sort(key=lambda p: p.points, reverse=True)
 
-        points_dict = {}
-        for participant in tournament.participants:
-            points = participant.points
-            if points not in points_dict:
-                points_dict[points] = []
-            points_dict[points].append(participant)
+        # Boucle pour appairer les participants selon leur nombre de points
+        while len(participants) > 1:
+            participant1 = participants.pop(0)
+            opponent_index = None
 
-        matches = []
-        # Pour chaque groupe de points, les matchs sont générés aléatoirement
-        for points_group in points_dict.values():
-            random.shuffle(points_group)
+            # Cherche l'adversaire le plus proche en terme de points
+            # A condition qu'il n'ai pas déjà été rencontré
+            for index, participant in enumerate(participants):
+                if participant not in participant1.played_opponents:
+                    opponent_index = index
+                    break
 
-        while len(points_group) >= 2:
-            participant1 = points_group.pop(0)
-            participant2 = points_group.pop(0)
+            # Si nouvel adversaire -> Création du match
+            if opponent_index is not None:
+                participant2 = participants.pop(opponent_index)
+                match = Match(participant1, participant2)
+                matches.append(match)
+                participant1.played_opponents.add(participant2)
+                participant2.played_opponents.add(participant1)
+            else:
+                # Si tous les participants ont déjà été affrontés
+                print("\nTous les participants ont déjà été rencontré. L'adversaire sera donc le plus proche en terme de points")
+                for index, participant in enumerate(participants):
+                    opponent_index = index
+                    break
 
-            match = Match(participant1, participant2)
-            matches.append(match)
-
-        # Si nombre de joueur impair dans un groupe, le joueur seul gagne par forfait
-        if len(points_group) == 1:
-            participant_forfeit = points_group[0]
-            print(f"{participant_forfeit.first_name} {participant_forfeit.last_name} gagne par forfait.")
-
-        # Vérifie que les recontres ne soient pas composés des mêmes participants
-        for points_group in points_dict.values():
-            while len(points_group) >= 2:
-                participant1 = points_group.pop(0)
-                opponent_index = None
-
-                for index, participant in enumerate(points_group):
-                    if participant not in participant1.played_opponents:
-                        opponent_index = index
-                        break
-
-                if opponent_index is not None:
-                    participant2 = points_group.pop(opponent_index)
-                    match = Match(participant1, participant2)
-                    matches.append(match)
-                    participant1.played_opponents.add(participant2)
-                    participant2.played_opponents.add(participant1)
+        # Gestion du cas d'un participant sans adversaire car nombre de participants impair
+        if participants:
+            participant_forfeit = participants.pop(0)
+            print(f"\n{participant_forfeit.first_name} {participant_forfeit.last_name} gagne par forfait (pas d'adversaire disponible).")
+            # Ajoute un point au participant gagnant par forfait
+            participant_forfeit.points += float(1)
 
         round.matches = matches
 
@@ -74,7 +73,10 @@ class TournamentController:
                     participant1_score = float(input(f"Indiquez le score de {match.participant1.first_name} {match.participant1.last_name}: "))
                     participant2_score = float(input(f"Indiquez le score de {match.participant2.first_name} {match.participant2.last_name}: "))
 
-                    if participant1_score + participant2_score in [0, 1, 1.5]:
+                    if (participant1_score == 0 and participant2_score == 1) or \
+                            (participant1_score == 1 and participant2_score == 0) or \
+                            (participant1_score == 0.5 and participant2_score == 0.5):
+
                         match.participant1_score = participant1_score
                         match.participant2_score = participant2_score
 

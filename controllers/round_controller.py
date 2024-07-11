@@ -14,6 +14,3 @@ class RoundController:
         if self.current_round_index < len(tournament.rounds)-1:
             self.current_round_index += 1
             return tournament.rounds[self.current_round_index]
-        else:
-            print("Tous les rounds créés ont été terminés")
-            return None
