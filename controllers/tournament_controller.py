@@ -1,10 +1,11 @@
 from models.tournament import Tournament
 from models.round import Round
 from models.match import Match
-from models.participant import Participant
 
 from controllers.player_controller import PlayerController
 from controllers.participant_controller import ParticipantController
+from controllers.data_controller import (PlayerDataController,
+                                         TournamentDataController)
 
 import random
 
@@ -48,8 +49,8 @@ class TournamentController:
                 participant2 = participants.pop(opponent_index)
                 match = Match(participant1, participant2)
                 matches.append(match)
-                participant1.played_opponents.add(participant2)
-                participant2.played_opponents.add(participant1)
+                participant1.played_opponents.append(participant2)
+                participant2.played_opponents.append(participant1)
             else:
                 # Si tous les participants ont déjà été affrontés
                 print("\nTous les participants ont déjà été rencontré. L'adversaire sera donc le plus proche en terme de points")
@@ -62,11 +63,12 @@ class TournamentController:
             participant_forfeit = participants.pop(0)
             print(f"\n{participant_forfeit.first_name} {participant_forfeit.last_name} gagne par forfait (pas d'adversaire disponible).")
             # Ajoute un point au participant gagnant par forfait
-            participant_forfeit.points += float(1)
+            participant_forfeit.points += float(0.5)
 
         round.matches = matches
 
     def set_scores(self, round: Round):
+        # A refaire (+ inclure la sauvegarde à chaque saisie)
         for match in round.matches:
             while True:
                 try:
@@ -89,7 +91,6 @@ class TournamentController:
                             print(f"\nVainqueur : {match.participant2.first_name} {match.participant2.last_name}\n")
                         elif match.participant1_score == 0.5 and match.participant2_score == 0.5:
                             print("\nMatch Nul\n")
-
                         break
                     else:
                         print("\nErreur: Les scores doivent être : 0 pour le perdant, 0.5 en cas de match nul et 1 pour le vainqueur.\n")
@@ -112,3 +113,8 @@ class TournamentController:
             participant = participant_controller.create_participant(player)
 
             tournament.add_participant(participant)
+
+            player_data_controller = PlayerDataController()
+            tournament_data_controller = TournamentDataController()
+            player_data_controller.save_players([player])
+            tournament_data_controller.save_tournament(tournament)

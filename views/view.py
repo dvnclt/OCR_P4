@@ -2,17 +2,10 @@
 
 class View:
     @staticmethod
-    def get_user_input(prompt):  # Del
-        return input(prompt)
-
-    @staticmethod
-    def display_message(message):  # Del
-        print(message)
-
-    @staticmethod
     def display_main_menu():
         print("\nChess Club Tournament Tool\n")
-        print("Saisissez le numéro associé à l'action souhaitée et validez avec 'Entrée'.\n")
+        print("Saisissez le numéro associé à l'action souhaitée et "
+              "validez avec 'Entrée'.\n")
         print("1 : Menu des tournois")
         print("2 : Menu des rapports")
         print("3 : Quitter le programme\n")
@@ -35,7 +28,7 @@ class View:
         print("6 : Ajouter un round")
         print("7 : Terminer le tournoi")
         print("8 : Afficher la liste des participants")
-        print("9 : Afficher la liste des rounds")
+        print("9 : Afficher la liste des rounds et des matchs")
         print("10 : Retour au menu principal\n")
 
     @staticmethod
