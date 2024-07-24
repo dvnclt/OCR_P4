@@ -16,33 +16,6 @@ class Tournament:
         self.rounds: List[Round] = []
         self.participants: List[Participant] = []
 
-    def add_participant(self, participant: Participant):
-        # A transférer
-        self.participants.append(participant)
-        self.participants.sort(key=lambda participant: participant.last_name)
-
-    def add_round(self, round: Round):
-        # A Transférer
-        self.rounds.append(round)
-
-    def current_round_name(self) -> str:
-        # A Transférer
-        if self.rounds:
-            return self.rounds[-1].name
-        return None
-
-    def set_description(self, description: str):
-        # A Transférer
-        self.description = description
-
-    def start_tournament(self):
-        # A Transférer
-        self.start_datetime = datetime.now().isoformat()
-
-    def end_tournament(self):
-        # A Transférer
-        self.end_datetime = datetime.now().isoformat()
-
     def to_dict(self):
         return {
             'name': self.name,

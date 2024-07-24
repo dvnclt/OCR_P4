@@ -9,3 +9,4 @@ test_views.py
 test_controllers.py
 notes.txt
 .DS_Store
+.vscode

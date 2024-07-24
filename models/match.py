@@ -13,11 +13,6 @@ class Match:
             [self.participant2, self.participant2_score]
             )
 
-    def results(self, participant1_score, participant2_score):
-        # Transférer dans match_controller ?
-        self.participant1_score = participant1_score
-        self.participant2_score = participant2_score
-
     def to_dict(self):
         return {
             'participant1': self.participant1.to_dict(),

@@ -1,5 +1,4 @@
 from .match import Match
-from datetime import datetime
 
 
 class Round:
@@ -8,18 +7,7 @@ class Round:
         self.start_datetime = None
         self.end_datetime = None
         self.matches = []
-
-    def start_round(self):
-        # A transferer
-        self.start_datetime = datetime.now().isoformat()
-
-    def end_round(self):
-        # A transferer
-        self.end_datetime = datetime.now().isoformat()
-
-    def add_match(self, match: Match):
-        # A transferer
-        self.matches.append(match)
+        self.is_completed = False
 
     def to_dict(self):
         return {

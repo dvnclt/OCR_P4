@@ -7,6 +7,7 @@ class Participant(Player):
         super().__init__(first_name, last_name, birth_date, chess_id)
         self.points = points
         self.played_opponents = []
+        self.color = None
 
     def to_dict(self) -> dict:
         participant_dict = {

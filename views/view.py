@@ -29,10 +29,11 @@ class View:
         print("7 : Terminer le tournoi")
         print("8 : Afficher la liste des participants")
         print("9 : Afficher la liste des rounds et des matchs")
-        print("10 : Retour au menu principal\n")
+        print("10 : Entrer la description du tournoi")
+        print("11 : Retour au menu principal\n")
 
     @staticmethod
     def display_report_menu():
-        print("\n1 : Afficher la liste des tournois")
-        print("2 : Afficher la liste des joueurs enregistrés")
+        print("\n1 : Afficher la liste des joueurs enregistrés")
+        print("2 : Afficher la liste des tournois")
         print("3 : Retour au menu principal")
