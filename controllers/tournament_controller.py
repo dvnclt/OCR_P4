@@ -20,8 +20,6 @@ class TournamentController:
         self.tournament: Tournament = None
         self.active_round: Round = None
 
-# === Méthodes publiques ===
-
     def setup_tournament(self):
         # Configure un tournoi et le créer
         while True:
@@ -443,7 +441,7 @@ class TournamentController:
         # Sauvegarde les données Tournament
         TournamentDataController.save_tournament(self.tournament)
 
-    def auto_add_participants(self, num_players: int):
+    def _auto_add_participants(self, num_players: int):
         # Méthode de test
         for i in range(num_players):
             first_name = f"Joueur{i+1}"
@@ -461,16 +459,14 @@ class TournamentController:
             PlayerDataController.save_players([player])
             TournamentDataController.save_tournament(self.tournament)
 
-# === Méthodes privées ===
-
-    def create_tournament(self, name: str, location: str,
-                          total_rounds: int = 4
-                          ):
+    def _create_tournament(self, name: str, location: str,
+                           total_rounds: int = 4
+                           ):
         # Créer un tournoi
         self.tournament = Tournament(name, location, total_rounds)
         return self.tournament
 
-    def start_tournament(self):
+    def _start_tournament(self):
         # Vérifie que le tournoi n'a pas déjà commencé
         if self.tournament.start_datetime:
             display_message(f"Le tournoi a déjà débuté : "
@@ -484,11 +480,11 @@ class TournamentController:
                             f"{self.tournament.start_datetime}."
                             )
 
-    def add_participant(self, participant: Participant):
+    def _add_participant(self, participant: Participant):
         # Ajoute un participant à la liste des participants
         self.tournament.participants.append(participant)
 
-    def match_pairing(self):
+    def _match_pairing(self):
         # Vérifie qu'il y a assez de participants avant de générer les matchs
         if len(self.tournament.participants) < 2:
             return None
@@ -547,7 +543,7 @@ class TournamentController:
             # Ajoute un demi-point au participant pour forfait
             unmatched_participant.points += 0.5
 
-    def record_matches_results(self, round: Round):
+    def _record_matches_results(self, round: Round):
         # Pour chaque match d'un round donné :
         for match in round.matches:
             while True:
