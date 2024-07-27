@@ -32,12 +32,12 @@ class TournamentController:
             name = get_user_input("\nNom du tournoi : ")
             if name.lower() == "esc":
                 display_message("\nCréation du tournoi annulée.\n")
-                return
+                return False
 
             location = get_user_input("Lieu du tournoi : ")
             if location.lower() == "esc":
                 display_message("\nCréation du tournoi annulée.\n")
-                return
+                return False
 
             try:
                 total_rounds_input = get_user_input(
@@ -45,8 +45,9 @@ class TournamentController:
                     )
                 if total_rounds_input.lower() == "esc":
                     display_message("\nCréation du tournoi annulée.\n")
-                    return
+                    return False
                 total_rounds = int(total_rounds_input or 4)
+
             except ValueError:
                 display_message(
                     "\nErreur: Saisie invalide. Indiquez un nombre entier."
@@ -66,11 +67,11 @@ class TournamentController:
 
         # Sélectionne le 1er round comme round actif par défaut
         self.active_round = self.tournament.rounds[0]
-        RoundController.start_round(self.active_round)
         display_message(f"Round actuel : {self.active_round.name}\n")
 
         # Sauvegarde les données Tournament
         TournamentDataController.save_tournament(self.tournament)
+        return True
 
     def select_tournament(self):
         # Charge la liste des tournois enregistrés
@@ -91,27 +92,45 @@ class TournamentController:
                                         )
         else:
             display_message("\nAucun tournoi n'a été trouvé")
-            return
+            return False
 
         # Demande à l'utilisateur de saisir un numéro
         while True:
-            choice = int(get_user_input(
-                "Entrez le numéro du tournoi : ")) - 1
-            if 0 <= choice < len(tournaments):
-                self.tournament = tournaments[choice]
+            try:
+                choice_input = get_user_input(
+                    "Entrez le numéro du tournoi : "
+                    "\nPour annuler, saisissez 'esc' et validez avec 'Entrée'"
+                    "\n"
+                    )
 
-                # Sélectionne le premier round non terminé
-                self.active_round = next(
-                    (round for round in self.tournament.rounds if
-                     round.end_datetime is None
-                     ), None
+                choice = int(choice_input) - 1
+
+                if 0 <= choice < len(tournaments):
+                    self.tournament = tournaments[choice]
+
+                    # Sélectionne le premier round non terminé
+                    self.active_round = next(
+                        (round for round in self.tournament.rounds if
+                         round.end_datetime is None), None
+                    )
+
+                    # Si tous les rounds sont terminés, sélectionne le dernier
+                    if self.active_round is None:
+                        self.active_round = self.tournament.rounds[-1]
+
+                    return True
+
+                elif choice_input.lower() == "esc":
+                    display_message("\nSélection du tournoi annulée.\n")
+                    return False
+
+                else:
+                    print("Numéro invalide, veuillez réessayer.")
+
+            except ValueError:
+                display_message(
+                    "\nErreur: Saisie invalide. Indiquez un numéro de tournoi"
                 )
-
-                # Si tous les rounds sont terminés, sélectionne le dernier
-                if self.active_round is None:
-                    self.active_round = self.tournament.rounds[-1]
-            else:
-                print("Numéro invalide, veuillez réessayer.")
             break
 
     def setup_player(self):
@@ -193,6 +212,8 @@ class TournamentController:
             # S'il y a assez de joueurs, commence le tournoi si non commencé
             if self.tournament.start_datetime is None:
                 self.start_tournament()
+            if self.active_round.start_datetime is None:
+                RoundController.start_round(self.active_round)
 
         display_message(f"\nNombre de matchs : "
                         f"{len(self.active_round.matches)}"

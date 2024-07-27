@@ -42,24 +42,32 @@ class MainController:
                 sys.exit(0)
 
     def tournament_menu(self):
-        # Affiche le menu tournoi et demande une action à l'user
         while True:
             self.view.display_tournament_menu()
             choice = get_user_input("\nSélectionnez une option : ")
 
             if choice == "1":
                 # Créer le tournoi et affiche son menu d'actions
-                self.tournament_controller.setup_tournament()
-                if not self.tournament_controller.setup_tournament:
-                    self.tournament_menu()
-
-            if choice == "2":
-                self.tournament_controller.select_tournament()
-                if self.tournament_controller.select_tournament:
+                success = self.tournament_controller.setup_tournament()
+                if success:
                     self.tournament_action_menu()
+                else:
+                    continue
 
-            if choice == "3":
+            elif choice == "2":
+                # Choisie un tournoi dans la liste des tournois existants
+                success = self.tournament_controller.select_tournament()
+                if success:
+                    self.tournament_action_menu()
+                else:
+                    continue
+
+            elif choice == "3":
                 self.main_menu()
+
+            else:
+                display_message("\nErreur: Commande inconnue."
+                                "\nSélectionnez une option : ")
 
     def tournament_action_menu(self):
         # Affiche le menu des actions du tournoi et demande une action à l'user
@@ -105,10 +113,6 @@ class MainController:
 
             elif choice == "10":
                 self.tournament_controller.set_description()
-
-            elif choice == "0":
-                # Option de test
-                self.tournament_controller.auto_add_participants(9)
 
             elif choice == "11":
                 # Retourne au menu principal
