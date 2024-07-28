@@ -55,17 +55,36 @@ class ReportController:
             display_message("\nAucun tournoi n'a été trouvé")
             return
 
-        # Demande à l'utilisateur de saisir un numéro
+        # Demande à l'utilisateur de saisir un numéro - 1
         while True:
-            choice = int(get_user_input(
-                "Entrez le numéro du tournoi : ")) - 1
-            if 0 <= choice < len(tournaments):
-                self.tournament = tournaments[choice]
-                self.tournament_controller.tournament = self.tournament
-                self.display_tournament_options()
+            try:
+                choice_input = get_user_input(
+                    "Entrez le numéro du tournoi : "
+                    "\nPour annuler, saisissez 'esc' et validez avec 'Entrée'"
+                    "\n"
+                    )
+                choice = int(choice_input) - 1
+
+                if 0 <= choice < len(tournaments):
+                    self.tournament = tournaments[choice]
+                    self.tournament_controller.tournament = self.tournament
+                    self.display_tournament_options()
+
+                    return True
+
+                elif choice_input.lower() == "esc":
+                    display_message("\nSélection du tournoi annulée.\n")
+                    return False
+
+                else:
+                    display_message("Numéro invalide, veuillez réessayer.")
+                    continue
+
+            except ValueError:
+                display_message(
+                    "\nErreur: Saisie invalide. Indiquez un numéro de tournoi"
+                )
                 break
-            else:
-                display_message("Numéro invalide, veuillez réessayer.")
 
     def display_tournament_options(self):
         while True:

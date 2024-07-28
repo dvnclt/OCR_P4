@@ -2,7 +2,7 @@
 
 ## Description
 
-Ce projet est un outil pour la gestion des tournois d'échecs. Il permet de créer et de gérer des tournois, d'ajouter des participants, de générer des matchs, et de consulter des rapports sur les joueurs et les tournois.
+Ce projet est un outil pour la gestion des tournois d'échecs. Il permet de créer et de gérer des tournois, d'ajouter des participants, de générer des matchs, et de consulter des rapports sur les joueurs et tournois.
 
 ## Structure du Projet
 
@@ -86,7 +86,7 @@ Affiche les options suivantes :
 
 ### `controllers/main_controller.py`
 
-Gère les menus principaux et des tournois, ainsi que les actions associées aux tournois et aux rapports.
+Gère les menus principaux ainsi que les actions associées aux tournois et aux rapports.
 
 ### `views/view.py`
 
@@ -110,7 +110,7 @@ Pour lancer le programme, suivez les étapes ci-dessous selon votre système d'e
 
 ### Prérequis
 
-Assurez-vous d'avoir Python 3 installé sur votre système.
+Python
 
 ### Instructions pour Windows
 
@@ -125,4 +125,5 @@ Assurez-vous d'avoir Python 3 installé sur votre système.
 1. Ouvrez le terminal.
 2. Naviguez jusqu'au répertoire contenant le fichier `main.py`.
 3. Exécutez le programme avec la commande suivante :
-python3 main.py
+   ```bash
+   python main.py

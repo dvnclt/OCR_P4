@@ -126,6 +126,7 @@ class TournamentController:
 
                 else:
                     print("Numéro invalide, veuillez réessayer.")
+                    continue
 
             except ValueError:
                 display_message(
